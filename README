@@ -1,0 +1,129 @@
+# Sistema de Envíos
+
+Un sistema de gestión de envíos desarrollado en C++ que maneja diferentes tipos de paquetería con cálculo automático de costos y validaciones.
+
+## Descripción
+
+Este proyecto implementa un sistema orientado a objetos para el manejo de envíos de paquetería. El sistema permite gestionar información de remitentes y destinatarios, calcular costos de envío según el tipo de paquete, y aplicar validaciones y cargos adicionales según las características del envío.
+
+## Características
+
+- **Gestión de datos completos**: Almacena información detallada de remitente y destinatario
+- **Polimorfismo**: Diferentes tipos de envío con cálculo personalizado de costos
+- **Validaciones automáticas**: Control de valores negativos y asignación de valores por defecto
+- **Cargos adicionales**: Sistema de recargos para sobres que exceden dimensiones estándar
+- **Interfaz informativa**: Muestra detallada de información de envíos y costos
+
+## Estructura del Proyecto
+
+### Clases Principales
+
+#### `Envio` (Clase Base)
+- **Propósito**: Clase base abstracta que define la estructura común para todos los tipos de envío
+- **Atributos**: 
+  - Datos completos del remitente (nombre, dirección, ciudad, estado, código postal)
+  - Datos completos del destinatario
+  - Costo estándar base
+- **Métodos**:
+  - `calculaCosto()`: Método virtual para cálculo de costos
+  - `mostrarRemitente()`: Muestra información del remitente
+  - `mostrarDestinatario()`: Muestra información del destinatario
+
+#### `Paquete` (Hereda de Envio)
+- **Propósito**: Maneja envíos de paquetes con dimensiones y peso
+- **Atributos adicionales**:
+  - Dimensiones (largo, ancho, profundidad)
+  - Peso en kilogramos
+  - Costo por kilogramo
+- **Características especiales**:
+  - Validación de peso positivo (valor por defecto: 1.0 kg)
+  - Validación de costo por kg positivo (valor por defecto: $10.0)
+  - Cálculo de costo: `costo base + (peso × costo por kg)`
+
+#### `Sobre` (Hereda de Envio)
+- **Propósito**: Maneja envíos de documentos y correspondencia
+- **Atributos adicionales**:
+  - Dimensiones (largo, ancho)
+  - Cargo adicional para sobres grandes
+- **Características especiales**:
+  - Detección automática de sobres grandes (>25×30 cm)
+  - Aplicación de cargo adicional para dimensiones excedidas
+  - Alertas informativas sobre cargos aplicados
+
+## Archivos del Proyecto
+
+```
+├── Envio.h          # Declaración de la clase base
+├── Envio.cpp        # Implementación de la clase base
+├── Paquete.h        # Declaración de la clase Paquete
+├── Paquete.cpp      # Implementación de la clase Paquete
+├── Sobre.h          # Declaración de la clase Sobre
+├── Sobre.cpp        # Implementación de la clase Sobre
+└── main.cpp         # Programa principal con casos de prueba
+```
+
+## Compilación y Ejecución
+
+### Requisitos
+- Compilador de C++ (g++, clang++, etc.)
+- Estándar C++11 o superior
+
+### Comandos de compilación
+```bash
+# Compilación básica
+g++ -o sistema_envios main.cpp Envio.cpp Paquete.cpp Sobre.cpp
+
+# Con flags adicionales de depuración
+g++ -std=c++11 -Wall -Wextra -g -o sistema_envios main.cpp Envio.cpp Paquete.cpp Sobre.cpp
+
+# Ejecución
+./sistema_envios
+```
+
+## Casos de Prueba Incluidos
+
+El programa incluye 5 casos de prueba que demuestran:
+
+1. **Envío Básico**: Funcionalidad base de la clase `Envio`
+2. **Paquete Estándar**: Cálculo de costos con peso y dimensiones
+3. **Sobre Normal**: Sobre dentro de dimensiones estándar
+4. **Sobre Grande**: Sobre que excede dimensiones y aplica cargo adicional
+5. **Validación de Errores**: Manejo de valores negativos con asignación de defaults
+
+## Ejemplo de Salida
+
+```
+=== PROGRAMA DE SISTEMA DE ENVIOS ===
+=============================================
+
+PRUEBA 1: ENVIO BASICO
+Remitente: Erik Torres
+Direccion: Calle 123
+Ciudad: Guadalajara, Jalisco 44100
+
+Destinatario: Felipe Castillo
+Direccion: Avenida 456
+Ciudad: Monterrey, Nuevo Leon 64000
+Costo del envio: $50
+```
+
+## Conceptos de Programación Implementados
+
+- **Herencia**: Las clases `Paquete` y `Sobre` heredan de `Envio`
+- **Polimorfismo**: Método `calculaCosto()` implementado de forma diferente en cada clase
+- **Encapsulación**: Atributos privados y protegidos con métodos públicos
+- **Validación de datos**: Control de entrada con valores por defecto
+- **Composición**: Manejo integral de datos relacionados
+
+## Posibles Mejoras
+
+- Implementar persistencia de datos (archivos/base de datos)
+- Agregar más tipos de envío (express, internacional, etc.)
+- Sistema de tracking con números de seguimiento
+- Interfaz gráfica de usuario
+- Cálculo de tiempos de entrega estimados
+- Integración con APIs de paqueterías reales
+
+## Licencia
+
+Proyecto académico desarrollado para fines educativos.
